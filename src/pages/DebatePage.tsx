@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Mic, MicOff, Send, Pause, Play, SkipForward,
-  Volume2, VolumeX, User, Bot, Loader2, Clock, AlertCircle, Keyboard
+  Volume2, VolumeX, User, Bot, Loader2, Clock, AlertCircle, Keyboard, Brain
 } from 'lucide-react'
 import { useDebateStore } from '../store/debateStore'
 import { useSettingsStore } from '../store/settingsStore'
