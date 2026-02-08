@@ -19,10 +19,8 @@
 
 body {
   font-family: 'Inter', 'Noto Sans SC', sans-serif;
-  background-color: var(--bg-color);
-  background-image:
-    radial-gradient(1200px 800px at 10% -10%, rgba(208,160,110,0.08), transparent 60%),
-    radial-gradient(900px 700px at 90% 0%, rgba(114,156,114,0.08), transparent 60%);
+  background-color: #050505;
+  background-image: linear-gradient(180deg, #1c1c1c 0%, #000000 100%);
   color: var(--text-primary);
   min-height: 100vh;
   overflow-x: hidden;
@@ -30,7 +28,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ===== Global Grain Texture (Film/Paper Feel) ===== */
+/* ===== Replaced Grain with Subtle Particle Effect ===== */
 .bg-grain {
   position: fixed;
   top: 0;
@@ -38,9 +36,76 @@ body {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: -1;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  z-index: 0;
+  opacity: 0.5;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    radial-gradient(circle at 15% 25%, rgba(255, 255, 255, 0.015) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 85% 75%, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 120px 120px, 180px 180px, 240px 240px;
+  animation: floatingParticles 80s linear infinite;
+}
+
+@keyframes floatingParticles {
+  0% { background-position: 0 0, 0 0, 0 0; }
+  100% { background-position: 120px 120px, 180px 180px, 240px 240px; }
+}
+
+/* ===== UI Refactor Overrides ===== */
+@layer utilities {
+  /* Override App Wrapper Blue Background */
+  .bg-slate-950, .bg-base-950 {
+    background-color: transparent !important;
+    background-image: none !important;
+  }
+
+  /* Chat Bubble - User (Brand Color, Transparent) */
+  .shadow-primary-900\/5 {
+    background: rgba(208, 160, 110, 0.1) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(208, 160, 110, 0.25) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2), inset 0 0 20px rgba(208, 160, 110, 0.05) !important;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Chat Bubble - AI (Frosted Glass, Light Gray) */
+  .shadow-blue-900\/5 {
+    background: rgba(255, 255, 255, 0.04) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.02) !important;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Hover Micro-interactions for Bubbles */
+  .shadow-primary-900\/5:hover,
+  .shadow-blue-900\/5:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3) !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+  }
+
+  /* Send/Mic Button Gradient */
+  button.bg-primary-500 {
+    background: linear-gradient(135deg, #d0a06e 0%, #b86d40 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(208, 160, 110, 0.3) !important;
+  }
+  
+  button.bg-primary-500:hover {
+    background: linear-gradient(135deg, #eaddcf 0%, #d0a06e 100%) !important;
+    box-shadow: 0 6px 20px rgba(208, 160, 110, 0.5) !important;
+    transform: scale(1.05);
+  }
+
+  /* Input Area Frosted Glass */
+  footer.bg-base-950\/80 {
+    background: rgba(10, 10, 10, 0.75) !important;
+    backdrop-filter: blur(20px) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
 }
 
 /* ===== Typography ===== */
