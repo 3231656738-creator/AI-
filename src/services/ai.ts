@@ -281,7 +281,7 @@ export async function getJudgeReport(
   try {
     const parsed = JSON.parse(content) as JudgeReport
     if (!('mode' in parsed)) {
-      return { ...parsed, mode } as JudgeReport
+      return { ...(parsed as object), mode } as JudgeReport
     }
     return parsed
   } catch {

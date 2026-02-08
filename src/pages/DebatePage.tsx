@@ -280,7 +280,7 @@ export default function DebatePage() {
             overallComment: `评分过程中遇到错误：${err.message}。请检查 DeepSeek API 配置后重试。`,
             userHighlights: ['完成了一场情绪化辩论'],
             userImprovements: ['请检查 API 配置后重新进行辩论以获取详细评价'],
-            stageComments: { emotional_debate: '系统评分失败，提供占位数据' },
+            stageComments: { emotional_debate: '系统评分失败，提供占位数据' } as Record<string, string>,
             keyMoments: [],
           }
         : {
