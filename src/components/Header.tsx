@@ -16,7 +16,7 @@ export default function Header() {
       className="fixed top-0 left-0 right-0 z-50 px-6 py-6"
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-3 group">
+        <Link to="/" className="flex items-center gap-3 group interactive-hover">
           <div className="w-10 h-10 flex items-center justify-center border border-white/10 rounded-full bg-base-900/50 backdrop-blur-md group-hover:border-primary-400/30 transition-colors">
             <Swords size={18} className="text-primary-400" />
           </div>
@@ -38,7 +38,7 @@ function NavLink({ to, icon, label, active }: { to: string; icon: React.ReactNod
   return (
     <Link
       to={to}
-      className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm transition-all duration-300 ${
+      className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm transition-all duration-300 interactive-hover ${
         active
           ? 'bg-white/10 text-primary-200 shadow-sm'
           : 'text-base-400 hover:text-base-200 hover:bg-white/5'

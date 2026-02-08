@@ -16,6 +16,11 @@ const fadeUp = {
 export default function HomePage() {
   const navigate = useNavigate()
   const setMode = useDebateStore((s) => s.setMode)
+  const pageTransition = {
+    initial: { opacity: 0, y: 12 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+    exit: { opacity: 0, y: -10, transition: { duration: 0.3 } },
+  }
 
   const handleStart = (mode: 'standard' | 'emotional') => {
     setMode(mode)
@@ -23,7 +28,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-base-950 text-base-100 selection:bg-primary-500/30">
+    <motion.div initial="initial" animate="animate" exit="exit" variants={pageTransition} className="min-h-screen bg-base-950 text-base-100 selection:bg-primary-500/30">
       <div className="bg-grain" />
       <Header />
 
@@ -52,19 +57,19 @@ export default function HomePage() {
             </motion.p>
 
             <motion.div variants={fadeUp} custom={3} className="flex flex-wrap gap-5">
-              <button onClick={() => handleStart('standard')} className="btn-primary group">
+              <button onClick={() => handleStart('standard')} className="btn-primary group interactive-hover">
                 <span className="flex items-center gap-2">
                   标准辩论
                   <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </span>
               </button>
-              <button onClick={() => handleStart('emotional')} className="btn-secondary group">
+              <button onClick={() => handleStart('emotional')} className="btn-secondary group interactive-hover">
                 <span className="flex items-center gap-2">
                   情绪辩论
                   <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </span>
               </button>
-              <Link to="/settings" className="btn-secondary">
+              <Link to="/settings" className="btn-secondary interactive-hover">
                 配置 API
               </Link>
             </motion.div>
@@ -77,13 +82,14 @@ export default function HomePage() {
             transition={{ duration: 1.5, ease: "easeOut" }}
             className="lg:col-span-5 relative h-[500px] hidden lg:block"
           >
-            <div className="absolute inset-0 bg-gradient-radial from-primary-900/20 to-transparent opacity-50 blur-3xl" />
+            <div className="absolute inset-0 bg-gradient-radial from-primary-900/20 to-transparent opacity-50 blur-3xl" data-parallax="0.08" />
             
             {/* Abstract Cards */}
             <motion.div 
               animate={{ y: [0, -15, 0] }}
               transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
               className="absolute top-10 right-10 w-64 h-80 glass-card rounded-2xl p-6 border-l-4 border-l-primary-400/50 z-20"
+              data-parallax="0.16"
             >
               <Quote size={32} className="text-primary-400/40 mb-4" />
               <p className="font-serif text-xl text-base-200 leading-relaxed">
@@ -101,6 +107,7 @@ export default function HomePage() {
               animate={{ y: [0, 20, 0] }}
               transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
               className="absolute bottom-20 left-0 w-60 h-72 glass-card rounded-2xl p-6 z-10 bg-base-900/80"
+              data-parallax="0.12"
             >
               <div className="h-full flex flex-col justify-between">
                 <div className="space-y-4">
@@ -149,7 +156,8 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.2, duration: 0.8 }}
-                className="group p-8 border border-white/5 hover:border-primary-400/20 rounded-2xl transition-colors duration-500 bg-white/[0.01] hover:bg-white/[0.03]"
+                className="group p-8 border border-white/5 hover:border-primary-400/20 rounded-2xl transition-colors duration-500 bg-white/[0.01] hover:bg-white/[0.03] interactive-hover"
+                data-reveal
               >
                 <div className="mb-6 text-base-500 group-hover:text-primary-400 transition-colors duration-500">
                   {f.icon}
@@ -168,6 +176,6 @@ export default function HomePage() {
           Designed for Critical Thinking
         </p>
       </footer>
-    </div>
+    </motion.div>
   )
 }

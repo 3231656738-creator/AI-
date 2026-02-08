@@ -359,9 +359,14 @@ export default function DebatePage() {
 
   const timerColor = timeRemaining <= 10 ? 'text-red-400' : timeRemaining <= 30 ? 'text-amber-400' : 'text-slate-100'
   const timerUrgent = timeRemaining <= 10
+  const pageTransition = {
+    initial: { opacity: 0, y: 12 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+    exit: { opacity: 0, y: -10, transition: { duration: 0.3 } },
+  }
 
   return (
-    <div className="h-screen flex flex-col bg-base-950 text-base-100 overflow-hidden font-sans">
+    <motion.div initial="initial" animate="animate" exit="exit" variants={pageTransition} className="h-screen flex flex-col bg-base-950 text-base-100 overflow-hidden font-sans">
       <div className="bg-grain" />
 
       {/* ===== Overlays ===== */}
@@ -381,7 +386,7 @@ export default function DebatePage() {
               <p className="text-base-500 mb-8">休息一下，整理思路，随时准备继续。</p>
               <button
                 onClick={togglePause}
-                className="w-full py-3 bg-primary-500 hover:bg-primary-400 text-base-950 font-bold rounded-xl transition-all shadow-lg shadow-primary-500/20"
+                className="w-full py-3 bg-primary-500 hover:bg-primary-400 text-base-950 font-bold rounded-xl transition-all shadow-lg shadow-primary-500/20 interactive-hover"
               >
                 继续辩论
               </button>
@@ -444,6 +449,14 @@ export default function DebatePage() {
               </div>
               <h3 className="text-2xl font-serif text-base-200 mb-2">AI 裁判正在评判</h3>
               <p className="text-base-500">DeepSeek 正在深度分析逻辑与论据...</p>
+              <div className="mt-6 w-56 mx-auto h-1 bg-base-800 rounded-full overflow-hidden">
+                <motion.div
+                  className="progress-bar"
+                  initial={{ width: '20%' }}
+                  animate={{ width: '100%' }}
+                  transition={{ duration: 1.2, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
+                />
+              </div>
             </div>
           </motion.div>
         )}
@@ -484,7 +497,7 @@ export default function DebatePage() {
           </div>
           <button
             onClick={togglePause}
-            className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/5 text-base-400 transition-colors"
+            className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/5 text-base-400 transition-colors interactive-hover"
           >
             {status === 'paused' ? <Play size={20} /> : <Pause size={20} />}
           </button>
@@ -506,7 +519,7 @@ export default function DebatePage() {
 
           {/* AI Thinking Indicator */}
           {isAiThinking && (
-            <div className="flex flex-col items-center gap-2 py-4">
+            <div className="flex flex-col items-center gap-3 py-4">
               <div className="w-10 h-10 rounded-full bg-base-800 flex items-center justify-center border border-white/5 shadow-lg shadow-blue-500/10">
                 <Bot size={18} className="text-blue-400" />
               </div>
@@ -517,6 +530,11 @@ export default function DebatePage() {
                   <span className="w-1 h-1 bg-base-500 rounded-full animate-bounce delay-100" />
                   <span className="w-1 h-1 bg-base-500 rounded-full animate-bounce delay-200" />
                 </span>
+              </div>
+              <div className="w-full max-w-2xl bg-base-900/40 border border-blue-500/10 rounded-2xl p-6">
+                <div className="skeleton h-4 w-2/3 rounded-full mb-3" />
+                <div className="skeleton h-4 w-full rounded-full mb-3" />
+                <div className="skeleton h-4 w-5/6 rounded-full" />
               </div>
             </div>
           )}
@@ -590,7 +608,7 @@ export default function DebatePage() {
                     if (inputMode === 'voice') stt.stopListening()
                     setInputMode(m => m === 'voice' ? 'text' : 'voice')
                   }}
-                  className="w-12 h-12 flex items-center justify-center rounded-full bg-base-900 border border-white/10 text-base-400 hover:text-base-200 hover:border-white/20 transition-all shrink-0 hover:bg-white/5"
+                  className="w-12 h-12 flex items-center justify-center rounded-full bg-base-900 border border-white/10 text-base-400 hover:text-base-200 hover:border-white/20 transition-all shrink-0 hover:bg-white/5 interactive-hover"
                 >
                   {inputMode === 'voice' ? <Keyboard size={20} /> : <Mic size={20} />}
                 </button>
@@ -638,7 +656,7 @@ export default function DebatePage() {
                       onChange={(e) => setTextInput(e.target.value)}
                       onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && (e.preventDefault(), handleSendText())}
                       placeholder="请输入你的观点..."
-                      className="w-full bg-transparent border-none text-base-200 p-3 h-12 max-h-32 focus:ring-0 resize-none text-sm placeholder-base-600"
+                      className="w-full bg-transparent border-none text-base-200 p-3 h-12 max-h-32 focus:ring-0 resize-none text-sm placeholder-base-600 input-base"
                     />
                   )}
                 </div>
@@ -646,7 +664,7 @@ export default function DebatePage() {
                 <button
                   onClick={inputMode === 'voice' ? endUserTurn : handleSendText}
                   disabled={inputMode === 'text' && !textInput.trim()}
-                  className={`w-12 h-12 flex items-center justify-center rounded-full transition-all shrink-0 ${
+                  className={`w-12 h-12 flex items-center justify-center rounded-full transition-all shrink-0 interactive-hover ${
                     (inputMode === 'voice' || textInput.trim())
                       ? 'bg-primary-500 text-base-950 hover:bg-primary-400 shadow-lg shadow-primary-500/20'
                       : 'bg-base-800 text-base-600 cursor-not-allowed'
@@ -674,7 +692,7 @@ export default function DebatePage() {
           )}
         </div>
       </footer>
-    </div>
+    </motion.div>
   )
 }
 

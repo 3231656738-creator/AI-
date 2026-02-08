@@ -86,8 +86,14 @@ export default function TopicPage() {
     setCustomTitle('')
   }
 
+  const pageTransition = {
+    initial: { opacity: 0, y: 12 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+    exit: { opacity: 0, y: -10, transition: { duration: 0.3 } },
+  }
+
   return (
-    <div className="min-h-screen bg-base-950 text-base-100 pb-20">
+    <motion.div initial="initial" animate="animate" exit="exit" variants={pageTransition} className="min-h-screen bg-base-950 text-base-100 pb-20">
       <div className="bg-grain" />
       <Header />
 
@@ -110,7 +116,7 @@ export default function TopicPage() {
               placeholder="搜索辩题..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-base-900/50 border-b border-base-700 px-4 py-3 pl-10 text-sm focus:outline-none focus:border-primary-400 transition-colors placeholder-base-600"
+              className="w-full bg-base-900/50 border-b border-base-700 px-4 py-3 pl-10 text-sm input-base placeholder-base-600"
             />
             <Search size={16} className="absolute left-0 top-1/2 -translate-y-1/2 text-base-500" />
           </motion.div>
@@ -121,7 +127,7 @@ export default function TopicPage() {
             <button
               key={m}
               onClick={() => setLocalMode(m)}
-              className={`px-4 py-2 rounded-full text-sm transition-all ${
+              className={`px-4 py-2 rounded-full text-sm transition-all interactive-hover ${
                 mode === m
                   ? 'bg-primary-500 text-base-950'
                   : 'text-base-400 hover:text-base-200 hover:bg-white/5'
@@ -133,7 +139,7 @@ export default function TopicPage() {
           <div className="ml-auto">
             <button
               onClick={() => setShowCustom(true)}
-              className="text-sm text-primary-400 hover:text-primary-300"
+              className="text-sm text-primary-400 hover:text-primary-300 interactive-hover"
             >
               自定义话题
             </button>
@@ -151,7 +157,7 @@ export default function TopicPage() {
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat as any)}
-              className={`px-4 py-2 rounded-full text-sm transition-all duration-300 ${
+              className={`px-4 py-2 rounded-full text-sm transition-all duration-300 interactive-hover ${
                 selectedCategory === cat
                   ? 'bg-base-100 text-base-950 font-medium'
                   : 'text-base-400 hover:text-base-200 hover:bg-white/5'
@@ -162,7 +168,7 @@ export default function TopicPage() {
           ))}
           <button
             onClick={handleRandomTopic}
-            className="ml-auto flex items-center gap-2 px-4 py-2 text-primary-400 hover:text-primary-300 text-sm transition-colors"
+            className="ml-auto flex items-center gap-2 px-4 py-2 text-primary-400 hover:text-primary-300 text-sm transition-colors interactive-hover"
           >
             <Shuffle size={14} />
             随机抽取
@@ -186,7 +192,8 @@ export default function TopicPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.05 * i }}
               onClick={() => setSelectedTopic(topic)}
-              className="group cursor-pointer relative bg-base-900/40 border border-white/5 p-8 hover:border-primary-400/30 transition-all duration-500 hover:-translate-y-1"
+              className="group cursor-pointer relative bg-base-900/40 border border-white/5 p-8 hover:border-primary-400/30 transition-all duration-500 hover:-translate-y-1 interactive-hover"
+              data-reveal
             >
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-500/0 to-transparent group-hover:via-primary-500/50 transition-all duration-700" />
               
@@ -240,7 +247,7 @@ export default function TopicPage() {
                     <span className="text-xs font-mono text-primary-400 uppercase tracking-widest mb-2 block">Selected Topic</span>
                     <h2 className="text-3xl font-serif font-medium text-base-100">{selectedTopic.title}</h2>
                   </div>
-                  <button onClick={() => setSelectedTopic(null)} className="text-base-500 hover:text-base-300 transition-colors">
+                  <button onClick={() => setSelectedTopic(null)} className="text-base-500 hover:text-base-300 transition-colors interactive-hover">
                     <X size={24} />
                   </button>
                 </div>
@@ -266,7 +273,7 @@ export default function TopicPage() {
                         <button
                           key={s}
                           onClick={() => setStance(s)}
-                          className={`flex-1 py-3 border transition-all duration-300 ${
+                          className={`flex-1 py-3 border transition-all duration-300 interactive-hover ${
                             stance === s
                               ? 'border-primary-500 bg-primary-500/10 text-primary-200'
                               : 'border-white/10 text-base-500 hover:border-white/20 hover:text-base-300'
@@ -286,7 +293,7 @@ export default function TopicPage() {
                         <button
                           key={d}
                           onClick={() => setDifficulty(d)}
-                          className={`flex-1 py-3 border transition-all duration-300 ${
+                          className={`flex-1 py-3 border transition-all duration-300 interactive-hover ${
                             difficulty === d
                               ? 'border-base-200 bg-base-200 text-base-950'
                               : 'border-white/10 text-base-500 hover:border-white/20 hover:text-base-300'
@@ -303,7 +310,7 @@ export default function TopicPage() {
                 <div className="mt-8 pt-6 border-t border-white/5">
                   <button
                     onClick={() => setShowAdvanced(!showAdvanced)}
-                    className="flex items-center gap-2 text-xs text-base-500 hover:text-base-300 transition-colors"
+                    className="flex items-center gap-2 text-xs text-base-500 hover:text-base-300 transition-colors interactive-hover"
                   >
                     <ChevronDown size={14} className={`transition-transform ${showAdvanced ? 'rotate-180' : ''}`} />
                     高级时间设置
@@ -370,7 +377,7 @@ export default function TopicPage() {
               <div className="bg-base-900/50 p-6 flex justify-end">
                 <button
                   onClick={handleStart}
-                  className="btn-primary flex items-center gap-3 px-8 py-3"
+                  className="btn-primary flex items-center gap-3 px-8 py-3 interactive-hover"
                 >
                   <span className="font-serif">Enter Arena</span>
                   <ArrowRight size={18} />
@@ -404,7 +411,7 @@ export default function TopicPage() {
                     value={customTitle}
                     onChange={(e) => setCustomTitle(e.target.value)}
                     placeholder="请输入话题，如“短视频平台利弊”"
-                    className="w-full mt-2 bg-base-900/40 border border-white/10 px-3 py-2 text-sm"
+                    className="w-full mt-2 bg-base-900/40 border border-white/10 px-3 py-2 text-sm input-base"
                   />
                   <div className="text-xs text-base-500 mt-1">4-50字符，自动生成正反立场</div>
                 </div>
@@ -415,7 +422,7 @@ export default function TopicPage() {
                       <button
                         key={c}
                         onClick={() => setCustomClass(c)}
-                        className={`px-3 py-1 rounded-full text-xs ${
+                        className={`px-3 py-1 rounded-full text-xs interactive-hover ${
                           customClass === c ? 'bg-primary-500 text-base-950' : 'text-base-400 bg-white/5'
                         }`}
                       >
@@ -426,11 +433,11 @@ export default function TopicPage() {
                 </div>
               </div>
               <div className="mt-6 flex justify-end gap-3">
-                <button className="text-sm text-base-400" onClick={() => setShowCustom(false)}>取消</button>
+                <button className="text-sm text-base-400 interactive-hover" onClick={() => setShowCustom(false)}>取消</button>
                 <button
                   onClick={handleAddCustomTopic}
                   disabled={!isCustomValid()}
-                  className={`px-4 py-2 text-sm rounded-lg ${
+                  className={`px-4 py-2 text-sm rounded-lg interactive-hover ${
                     isCustomValid() ? 'bg-primary-500 text-base-950' : 'bg-base-800 text-base-600'
                   }`}
                 >
@@ -441,6 +448,6 @@ export default function TopicPage() {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   )
 }

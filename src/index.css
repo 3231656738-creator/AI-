@@ -8,6 +8,7 @@
   --text-primary: #e7e5e4;
   --text-secondary: #a8a29e;
   --accent-gold: #d0a06e;
+  --accent-aux: #729c72;
 }
 
 * {
@@ -19,6 +20,9 @@
 body {
   font-family: 'Inter', 'Noto Sans SC', sans-serif;
   background-color: var(--bg-color);
+  background-image:
+    radial-gradient(1200px 800px at 10% -10%, rgba(208,160,110,0.08), transparent 60%),
+    radial-gradient(900px 700px at 90% 0%, rgba(114,156,114,0.08), transparent 60%);
   color: var(--text-primary);
   min-height: 100vh;
   overflow-x: hidden;
@@ -81,6 +85,7 @@ h1, h2, h3, h4, h5, h6 {
     border: 1px solid rgba(255, 255, 255, 0.04);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
   }
 
   .glass-card:hover {
@@ -102,6 +107,23 @@ h1, h2, h3, h4, h5, h6 {
   .glow-warm {
     box-shadow: 0 0 40px -10px rgba(208, 160, 110, 0.15);
   }
+
+  .will-transform {
+    will-change: transform;
+  }
+  .will-opacity {
+    will-change: opacity;
+  }
+  .interactive-hover {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+  }
+  .interactive-hover:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  }
+  .interactive-hover:active {
+    transform: scale(0.99);
+  }
 }
 
 /* ===== Component Styles ===== */
@@ -112,6 +134,7 @@ h1, h2, h3, h4, h5, h6 {
   background: #d0a06e;
   color: #1c1917;
   font-family: 'Noto Serif SC', serif;
+  will-change: transform, opacity;
 }
 
 .btn-primary:hover {
@@ -126,11 +149,13 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid rgba(255, 255, 255, 0.08);
   color: #e7e5e4;
   font-family: 'Noto Serif SC', serif;
+  will-change: transform, opacity;
 }
 
 .btn-secondary:hover {
   background: rgba(255, 255, 255, 0.06);
   border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
 }
 
 /* Chat Bubbles - Editorial Style */
@@ -174,7 +199,65 @@ h1, h2, h3, h4, h5, h6 {
   50% { transform: scaleY(1); }
 }
 
+/* Inputs */
+.input-focused {
+  border-color: rgba(208,160,110,0.35) !important;
+  background: linear-gradient(180deg, rgba(208,160,110,0.06), rgba(255,255,255,0.02)) !important;
+  box-shadow: 0 0 0 3px rgba(208,160,110,0.15);
+}
+.input-base {
+  transition: all 0.3s ease;
+}
+.input-base:focus {
+  border-color: rgba(208,160,110,0.35);
+  background: linear-gradient(180deg, rgba(208,160,110,0.06), rgba(255,255,255,0.02));
+  box-shadow: 0 0 0 3px rgba(208,160,110,0.15);
+  outline: none;
+}
+
+/* Skeleton */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255,255,255,0.06);
+}
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  animation: skeleton-shine 1.2s ease-in-out infinite;
+}
+@keyframes skeleton-shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Progress */
+.progress-bar {
+  height: 3px;
+  background: linear-gradient(90deg, #d0a06e, #729c72);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
 /* Radar Chart Overrides */
 .recharts-polar-grid-angle line { stroke: rgba(255,255,255,0.05) !important; }
 .recharts-polar-grid-concentric path { stroke: rgba(255,255,255,0.05) !important; }
 .recharts-text { fill: #a8a29e !important; }
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-parallax] {
+  will-change: transform;
+}

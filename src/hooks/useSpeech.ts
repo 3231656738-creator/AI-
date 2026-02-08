@@ -97,15 +97,15 @@ export function useSpeechRecognition() {
   const recognitionRef = useRef<SpeechRecognition | null>(null)
   const shouldRestartRef = useRef(false)
   const finalTranscriptRef = useRef('')
-  const restartTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const restartTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
-    const SpeechRecognitionClass = window.SpeechRecognition || window.webkitSpeechRecognition
+    const SpeechRecognitionClass = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
     setIsSupported(!!SpeechRecognitionClass)
   }, [])
 
   const startListening = useCallback(() => {
-    const SpeechRecognitionClass = window.SpeechRecognition || window.webkitSpeechRecognition
+    const SpeechRecognitionClass = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
     if (!SpeechRecognitionClass) return
 
     // Clean up existing

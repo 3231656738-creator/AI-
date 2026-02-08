@@ -18,8 +18,14 @@ export default function SettingsPage() {
     setTimeout(() => setSaved(false), 2000)
   }
 
+  const pageTransition = {
+    initial: { opacity: 0, y: 12 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+    exit: { opacity: 0, y: -10, transition: { duration: 0.3 } },
+  }
+
   return (
-    <div className="min-h-screen pb-20">
+    <motion.div initial="initial" animate="animate" exit="exit" variants={pageTransition} className="min-h-screen pb-20">
       <Header />
 
       <div className="max-w-2xl mx-auto px-6 pt-24">
@@ -34,6 +40,7 @@ export default function SettingsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
           className="glass rounded-2xl p-6 mb-5"
+          data-reveal
         >
           <div className="flex items-center gap-3 mb-5">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500/20 to-red-500/20 flex items-center justify-center text-orange-400 text-lg font-bold border border-orange-500/20">
@@ -54,11 +61,11 @@ export default function SettingsPage() {
                   value={settings.doubaoApiKey}
                   onChange={(e) => settings.updateSettings({ doubaoApiKey: e.target.value })}
                   placeholder="输入豆包 API Key..."
-                  className="w-full px-4 py-2.5 pr-10 rounded-xl bg-slate-800/60 border border-slate-700/30 text-slate-200 placeholder-slate-600 text-sm focus:outline-none focus:ring-1 focus:ring-gold-500/30"
+                  className="w-full px-4 py-2.5 pr-10 rounded-xl bg-slate-800/60 border border-slate-700/30 text-slate-200 placeholder-slate-600 text-sm input-base"
                 />
                 <button
                   onClick={() => toggleKeyVisibility('doubao')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 interactive-hover"
                 >
                   {showKeys['doubao'] ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
@@ -72,7 +79,7 @@ export default function SettingsPage() {
                 value={settings.doubaoModelId}
                 onChange={(e) => settings.updateSettings({ doubaoModelId: e.target.value })}
                 placeholder="例如: ep-2024xxxx-xxxxx"
-                className="w-full px-4 py-2.5 rounded-xl bg-slate-800/60 border border-slate-700/30 text-slate-200 placeholder-slate-600 text-sm focus:outline-none focus:ring-1 focus:ring-gold-500/30"
+                className="w-full px-4 py-2.5 rounded-xl bg-slate-800/60 border border-slate-700/30 text-slate-200 placeholder-slate-600 text-sm input-base"
               />
             </div>
 
@@ -80,7 +87,7 @@ export default function SettingsPage() {
               href="https://console.volcengine.com/ark"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-gold-400 transition-colors"
+              className="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-gold-400 transition-colors interactive-hover"
             >
               前往火山引擎 ARK 平台获取
               <ExternalLink size={13} />
@@ -94,6 +101,7 @@ export default function SettingsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
           className="glass rounded-2xl p-6 mb-5"
+          data-reveal
         >
           <div className="flex items-center gap-3 mb-5">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center text-blue-400 text-lg font-bold border border-blue-500/20">
@@ -114,11 +122,11 @@ export default function SettingsPage() {
                   value={settings.deepseekApiKey}
                   onChange={(e) => settings.updateSettings({ deepseekApiKey: e.target.value })}
                   placeholder="输入 DeepSeek API Key..."
-                  className="w-full px-4 py-2.5 pr-10 rounded-xl bg-slate-800/60 border border-slate-700/30 text-slate-200 placeholder-slate-600 text-sm focus:outline-none focus:ring-1 focus:ring-gold-500/30"
+                  className="w-full px-4 py-2.5 pr-10 rounded-xl bg-slate-800/60 border border-slate-700/30 text-slate-200 placeholder-slate-600 text-sm input-base"
                 />
                 <button
                   onClick={() => toggleKeyVisibility('deepseek')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 interactive-hover"
                 >
                   {showKeys['deepseek'] ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
@@ -129,7 +137,7 @@ export default function SettingsPage() {
               href="https://platform.deepseek.com/api_keys"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-gold-400 transition-colors"
+              className="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-gold-400 transition-colors interactive-hover"
             >
               前往 DeepSeek 平台获取
               <ExternalLink size={13} />
@@ -143,6 +151,7 @@ export default function SettingsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
           className="glass rounded-2xl p-6 mb-8"
+          data-reveal
         >
           <h2 className="font-semibold text-slate-100 mb-5">语音设置</h2>
 
@@ -154,7 +163,7 @@ export default function SettingsPage() {
               </div>
               <button
                 onClick={() => settings.updateSettings({ voiceEnabled: !settings.voiceEnabled })}
-                className={`w-11 h-6 rounded-full transition-all duration-200 relative ${
+                className={`w-11 h-6 rounded-full transition-all duration-200 relative interactive-hover ${
                   settings.voiceEnabled ? 'bg-gold-500' : 'bg-slate-700'
                 }`}
               >
@@ -173,7 +182,7 @@ export default function SettingsPage() {
               </div>
               <button
                 onClick={() => settings.updateSettings({ ttsEnabled: !settings.ttsEnabled })}
-                className={`w-11 h-6 rounded-full transition-all duration-200 relative ${
+                className={`w-11 h-6 rounded-full transition-all duration-200 relative interactive-hover ${
                   settings.ttsEnabled ? 'bg-gold-500' : 'bg-slate-700'
                 }`}
               >
@@ -212,7 +221,7 @@ export default function SettingsPage() {
         >
           <button
             onClick={handleSave}
-            className="btn-primary flex items-center gap-2 px-6 py-2.5 rounded-xl text-slate-950 font-medium"
+            className="btn-primary flex items-center gap-2 px-6 py-2.5 rounded-xl text-slate-950 font-medium interactive-hover"
           >
             {saved ? <CheckCircle size={16} /> : <Save size={16} />}
             {saved ? '已保存' : '保存设置'}
@@ -221,13 +230,13 @@ export default function SettingsPage() {
             onClick={() => {
               settings.resetSettings()
             }}
-            className="btn-secondary flex items-center gap-2 px-6 py-2.5 rounded-xl text-slate-300"
+            className="btn-secondary flex items-center gap-2 px-6 py-2.5 rounded-xl text-slate-300 interactive-hover"
           >
             <RotateCcw size={16} />
             重置
           </button>
         </motion.div>
       </div>
-    </div>
+    </motion.div>
   )
 }
